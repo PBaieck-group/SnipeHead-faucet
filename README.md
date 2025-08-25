@@ -1,94 +1,162 @@
-# SnipeHead-faucet
+SnipeHead Faucet
+ 
+Overview
+The SnipeHead Faucet is a smart contract-based system designed to distribute free SnipeHead (SHD) tokens on the PulseChain blockchain. It allows users to claim a fixed amount of tokens periodically while enforcing cooldown periods and daily limits to prevent abuse. The project includes the core ERC20 token contract, the faucet contract, test contracts for vulnerability simulation, and a comprehensive test suite using Hardhat.
+This faucet promotes community engagement by providing easy access to SHD tokens for testing, development, or participation in the SnipeHead ecosystem on PulseChain.
+Portal: https://www.snipehead.xyz
+Features
+
+Token Claims: Users can claim 5,000 SHD tokens every 24 hours.
+Cooldown Enforcement: 24-hour cooldown per user to prevent repeated claims.
+Daily Limits: Maximum of 250,000 SHD tokens dispensed per day across all users.
+Reentrancy Protection: Uses OpenZeppelin's ReentrancyGuard to secure against attacks.
+Events: Emits events for claims, deposits, and withdrawals for easy tracking.
+View Functions: Query faucet balance, user last claim time, and remaining daily tokens.
+
+Contracts
+SnipeHead.sol
+The core ERC20 token contract for SnipeHead (SHD). It mints the total supply to a specified recipient upon deployment.
+
+Symbol: SHD
+Name: SnipeHead
+Total Supply: 21,000,000,000 SHD (with 18 decimals)
+Inherits from OpenZeppelin's ERC20 and ERC20Permit for compatibility with PulseChain.
+
+SnipeHeadFaucet.sol
+The main faucet contract that handles token distribution on PulseChain.
+
+Constants:
+TOKENS_PER_CLAIM: 5,000 SHD
+COOLDOWN_PERIOD: 24 hours
+DAILY_TOKEN_LIMIT: 250,000 SHD
+
+
+Functions:
+claimTokens(): Allows users to claim tokens (non-reentrant).
+depositTokens(uint256 amount): Owner deposits tokens into the faucet.
+withdrawTokens(uint256 amount): Owner withdraws tokens from the faucet.
+View functions: getFaucetBalance(), getLastClaimTime(address user), getDailyTokensRemaining().
+
+
+Uses IERC20 interface for token interactions.
+
+MaliciousToken.sol
+A test contract simulating a malicious ERC20 token that can intentionally fail transfers.
+
+Used for testing edge cases in the faucet.
+
+MaliciousClaimer.sol
+A test contract simulating a reentrancy attack on the faucet.
+
+Attempts to call claimTokens() recursively during an attack.
+
+Installation
+This project uses Hardhat for development, testing, and deployment. Prerequisites:
+
+Node.js (v18+ recommended)
+npm or yarn
+
+
+Clone the repository:
+git clone https://gitlab.com/pbaieck-group/SnipeHead-faucet.git
+cd snipehead-faucet
+
+
+Install dependencies:
+npm install
+
+
+Configure environment variables for PulseChain deployment:
+
+Create a .env file based on .env.example.
+Add your private key for PulseChain or PulseChain Testnet.
 
 
 
-## Getting started
+Usage
+Local Development
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+Compile contracts:
+npx hardhat compile
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
 
-## Add your files
+Run a local Hardhat node:
+npx hardhat node
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/topics/git/add_files/#add-files-to-a-git-repository) or push an existing Git repository with the following command:
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/pbaieck-group/SnipeHead-faucet.git
-git branch -M main
-git push -uf origin main
-```
+Deploy contracts locally (in a separate terminal):
+npx hardhat run scripts/deploy.js --network localhost
 
-## Integrate with your tools
 
-- [ ] [Set up project integrations](https://gitlab.com/pbaieck-group/SnipeHead-faucet/-/settings/integrations)
 
-## Collaborate with your team
+Deployment to PulseChain
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/user/project/merge_requests/auto_merge/)
+Update hardhat.config.js with your PulseChain network details:
+Mainnet: https://rpc.pulsechain.com (Chain ID: 369)
+Testnet: https://rpc.v4.testnet.pulsechain.com (Chain ID: 943)
 
-## Test and Deploy
 
-Use the built-in continuous integration in GitLab.
+Deploy to PulseChain:npx hardhat run scripts/deploy.js --network pulsechain
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
 
-***
+Deploy to PulseChain Testnet:npx hardhat run scripts/deploy.js --network pulsechainTestnet
 
-# Editing this README
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
 
-## Suggestions for a good README
+Interacting with the Faucet
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Claim Tokens: Call claimTokens() from a user wallet on PulseChain.
+Deposit Tokens: Owner approves and calls depositTokens(amount) to fund the faucet.
+Withdraw Tokens: Owner calls withdrawTokens(amount) to retrieve tokens.
 
-## Name
-Choose a self-explaining name for your project.
+Testing
+The project includes a comprehensive test suite in old_SnipeHeadFaucet.test.js using Chai and Hardhat's network helpers.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Run tests:npx hardhat test
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+Tests cover:
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+Initial state and deployment.
+Successful claims and cooldown enforcement.
+Daily limits and resets.
+Insufficient balance scenarios.
+Owner-only functions (deposit/withdraw).
+Edge cases like zero amounts, large time jumps, and concurrent claims.
+Reentrancy protection (implicit via ReentrancyGuard).
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Additional test contracts (MaliciousToken.sol, MaliciousClaimer.sol) simulate attack scenarios to ensure robustness.
+Gas Reporting
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+Enable gas reporting in tests:npx hardhat test --gas
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+Coverage
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Run solidity coverage:npx hardhat coverage
 
-## License
-For open source projects, say how it is licensed.
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
->>>>>>> ba951d292ca3362b113b288287c25857b03cca51
+
+Configuration
+
+hardhat.config.js:
+Solidity version: 0.8.20
+Networks:
+Hardhat (local testing with 51 signers for simulating multiple users)
+PulseChain (Mainnet, Chain ID: 369)
+PulseChain Testnet (Chain ID: 943)
+
+
+Mocha timeout: 40,000ms
+
+
+package.json: Lists dependencies, including OpenZeppelin contracts, Hardhat plugins, and testing tools.
+
+License
+This project is licensed under the MIT License. See the LICENSE file for details.
+Contributing
+Contributions are welcome! Please fork the repository and submit a merge request on GitLab.
+Contact
+For questions or support, visit https://www.snipehead.xyz or open an issue on GitLab.
