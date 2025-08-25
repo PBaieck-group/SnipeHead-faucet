@@ -2,9 +2,9 @@ SnipeHead Faucet
  
 SnipeHead: '0x7E5A488756c3FEe54248f97a36dF5B0e9cf27d8d' - Main
 
-SnipeHeadFaucet: '0x451f3EF744C6B942765E86BF82dB4F898c9dA67f' Main
+SnipeHeadFaucet: '0x451f3EF744C6B942765E86BF82dB4F898c9dA67f' - Main
 
-SnipeHeadFaucet: '0xfB7133c004b17D7459888B1cFf3b51cfB54Dafe0' Testnet
+SnipeHeadFaucet: '0xfB7133c004b17D7459888B1cFf3b51cfB54Dafe0' - Testnet
 
 
 Overview
