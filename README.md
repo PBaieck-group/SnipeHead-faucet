@@ -1,5 +1,12 @@
 SnipeHead Faucet
  
+SnipeHead: '0x7E5A488756c3FEe54248f97a36dF5B0e9cf27d8d' - Main
+
+SnipeHeadFaucet: '0x451f3EF744C6B942765E86BF82dB4F898c9dA67f' Main
+
+SnipeHeadFaucet: '0xfB7133c004b17D7459888B1cFf3b51cfB54Dafe0' Testnet
+
+
 Overview
 The SnipeHead Faucet is a smart contract-based system designed to distribute free SnipeHead (SHD) tokens on the PulseChain blockchain. It allows users to claim a fixed amount of tokens periodically while enforcing cooldown periods and daily limits to prevent abuse. The project includes the core ERC20 token contract, the faucet contract, test contracts for vulnerability simulation, and a comprehensive test suite using Hardhat.
 This faucet promotes community engagement by providing easy access to SHD tokens for testing, development, or participation in the SnipeHead ecosystem on PulseChain.
