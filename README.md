@@ -6,7 +6,7 @@
 
 **SnipeHead Faucet Fallback**: https://ipfs.io/ipfs/bafybeidmqeru2mbs65vzbaor53ihr2qjzwwef6h7y6hqb3qpt22ypvm3gq/
 
-**bafybeidmqeru2mbs65vzbaor53ihr2qjzwwef6h7y6hqb3qpt22ypvm3gq**: 
+**bafybeidmqeru2mbs65vzbaor53ihr2qjzwwef6h7y6hqb3qpt22ypvm3gq** 
 
 ## Overview
 The **SnipeHead Faucet** is a smart contract-based system designed to distribute free **SnipeHead (SHD)** tokens on the PulseChain blockchain. It allows users to claim a fixed amount of tokens periodically while enforcing cooldown periods and daily limits to prevent abuse. The project includes the core ERC20 token contract, the faucet contract, test contracts for vulnerability simulation, and a comprehensive test suite using Hardhat.  
