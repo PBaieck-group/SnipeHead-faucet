@@ -1,3 +1,24 @@
+# 🚨 PROJECT SHUTDOWN
+
+The SnipeHead project on PulseChain (including the token, faucet, and mining contracts) is now officially shutting down.
+
+All development has been discontinued.
+
+The repositories will be archived shortly and set to read-only for historical reference only.
+
+Thank you to everyone who supported the project.
+
+Old code and documentation remain available below for transparency.
+
+
+
+
+
+
+
+
+
+
 # SnipeHead Faucet
 
 **SnipeHead**: `0x7E5A488756c3FEe54248f97a36dF5B0e9cf27d8d` - Main  
